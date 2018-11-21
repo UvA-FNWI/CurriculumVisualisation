@@ -26,9 +26,14 @@ export interface Course {
 
 export interface Trajectory {
     Code: string;
+    Name: string;
     Levels: Level[];
 
-    Color: string | undefined;
+    Style: any;
+
+    MaxLevel: Level;
+
+    Objectives: Objective[];
 }
 
 export interface Level {
@@ -36,6 +41,11 @@ export interface Level {
     DomainName: string;
     Level: ObjectiveLevel;
     LevelName: string;
+}
+
+export interface Objective {
+    Index: number;
+    Description: string;
 }
 
 export enum ObjectiveDomain {

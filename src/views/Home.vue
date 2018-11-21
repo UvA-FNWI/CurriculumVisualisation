@@ -7,11 +7,21 @@
           <div class="cb" v-for="course in year.Courses" :key="course.CatalogNumber" v-bind:style="course.Style">
             <div> {{ course.Name }} </div>
             <ul>
-              <li v-for="(traj,index) in course.Trajectories" :key="index" :style="{ backgroundColor: traj.Color }">
-                <span>{{ traj.Code }}</span>
-                <span v-for="(level,index) in traj.Levels" :key="index">
-                  {{ level }}
-                </span>
+              <li class='obj-list' v-for="(traj,index) in course.Trajectories" :key="index" :style="traj.Style">
+                <PopoverLink>
+                  <span>{{ traj.Code }}</span>
+                  <template slot='popover'>
+                    <div style='font-weight: bold; white-space: nowrap; min-width: 400px'>{{ traj.Name }}</div>
+                    <div style='font-size: smaller'>Niveau: {{ traj.MaxLevel.LevelName.toLowerCase() }} ({{ traj.MaxLevel.DomainName.toLowerCase() }})</div>
+
+                    <div style='margin-top: 10px; margin-bottom: 5px;'>Leerdoelen:</div>
+                    <ol>
+                      <li v-for="obj in traj.Objectives" :key="obj.Index" :value="obj.Index">
+                        {{ obj.Description }}
+                      </li>
+                    </ol>
+                  </template>
+                </PopoverLink>
               </li>
             </ul>
           </div>
@@ -22,13 +32,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import { Curriculum } from '@/models/Curriculum';
+import PopoverLink from '@/components/PopoverLink.vue';
 
 export default Vue.extend({
   name: 'home',
   components: {
-    HelloWorld,
+    PopoverLink,
   },
   created() {
     this.$store.dispatch('retrieveCurriculum');
@@ -48,10 +58,10 @@ div.cb {
     height: 100px;
     border-right: 2px solid white;
     border-left: 2px solid white;
-    overflow: hidden;
+    //overflow: hidden;
     position: absolute;
 
-    div:first-child {
+    > div:first-child {
         padding: 3px;
         padding-left: 5px;
         white-space: nowrap;
@@ -66,20 +76,30 @@ div.cb {
     ul {
         padding-left: 10px;
         font-size: 12px;
+        margin-top: 8px;
     }
 
-    li {
+    li.obj-list {
         list-style: none;
 
         span:not(:first-child) {
             display: none;
         }
 
-        color: white;
+        span {
+          color: white;
+        }
         padding: 2px 4px;
         display: inline-block;
         margin-right: 3px;
     }
+}
+
+ol {
+  padding-left: 30px;
+  li {
+    margin-bottom: 4px;
+  }
 }
 
 div.courseContainer 
