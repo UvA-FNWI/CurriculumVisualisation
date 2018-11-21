@@ -49,7 +49,11 @@ export default new Vuex.Store<RootState>({
             if (!colorMapping.has(traj.Code)) {
               colorMapping.set(traj.Code, colors[cIndex++]);
             }
-            traj.Color = colorMapping.get(traj.Code);
+            traj.MaxLevel = _.orderBy(traj.Levels, (l) => l.Level, 'desc')[0];
+            traj.Style = {
+              backgroundColor: colorMapping.get(traj.Code),
+              height: traj.MaxLevel.Level * 10 + 'px',
+            };
           }
         }
 
