@@ -32,6 +32,7 @@ export interface Trajectory {
     Style: any;
 
     MaxLevel: Level;
+    Domains: Domain[];
 
     Objectives: Objective[];
 }
@@ -41,6 +42,12 @@ export interface Level {
     DomainName: string;
     Level: ObjectiveLevel;
     LevelName: string;
+}
+
+export interface Domain {
+    Domain: ObjectiveDomain;
+    DomainName: string;
+    MaxLevel: Level;
 }
 
 export interface Objective {

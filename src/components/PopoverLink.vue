@@ -21,6 +21,7 @@ export default Vue.extend({
   }
 
   .popover {
+      text-align: left;
       visibility: hidden;
       position: absolute;
       left: 45px; 

@@ -12,7 +12,7 @@
                   <span>{{ traj.Code }}</span>
                   <template slot='popover'>
                     <div style='font-weight: bold; white-space: nowrap; min-width: 400px'>{{ traj.Name }}</div>
-                    <div style='font-size: smaller'>Niveau: {{ traj.MaxLevel.LevelName.toLowerCase() }} ({{ traj.MaxLevel.DomainName.toLowerCase() }})</div>
+                    <div style='font-size: smaller'>Niveau: <template v-for="(dom, index) in traj.Domains"><template v-if="index > 0">, </template>{{ dom.MaxLevel.LevelName.toLowerCase() }} ({{ dom.DomainName.toLowerCase() }})</template></div>
 
                     <div style='margin-top: 10px; margin-bottom: 5px;'>Leerdoelen:</div>
                     <ol>
@@ -22,6 +22,7 @@
                     </ol>
                   </template>
                 </PopoverLink>
+                <div v-for="dom in traj.Domains" :key="dom.Domain" class="domain-block" :style="{ left: dom.Domain * 14 + 'px' }"></div>
               </li>
             </ul>
           </div>
@@ -81,6 +82,9 @@ div.cb {
 
     li.obj-list {
         list-style: none;
+        position: relative;
+        min-width: 35px;
+        text-align: center;
 
         span:not(:first-child) {
             display: none;
@@ -105,5 +109,15 @@ ol {
 div.courseContainer 
 {
     position: relative;
+}
+
+.domain-block
+{
+  display: inline-block;
+  width: 14px;
+  height: 8px;
+  background-color: inherit;
+  position: absolute;
+  bottom: -3px;
 }
 </style>

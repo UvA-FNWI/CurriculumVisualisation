@@ -20,7 +20,7 @@ export default new Vuex.Store<RootState>({
   },
   actions: {
     retrieveCurriculum({ commit }) {
-      axios.get('https://api.datanose.nl/Curriculum/BSc_PB').then((d) => {
+      axios.get('https://api.datanose.nl/Curriculum/BSc_PB').then((d) => { // http://localhost:54708/Curriculum/BSc_PB
       const curr: Curriculum = d.data;
 
       const colorMapping = new Map<string, string>();
@@ -50,6 +50,11 @@ export default new Vuex.Store<RootState>({
               colorMapping.set(traj.Code, colors[cIndex++]);
             }
             traj.MaxLevel = _.orderBy(traj.Levels, (l) => l.Level, 'desc')[0];
+            traj.Domains = _.map(_.groupBy(traj.Levels,  (l) => l.Domain), (g) => ({
+              MaxLevel: _.orderBy(g, (l) => l.Level, 'desc')[0],
+              Domain: g[0].Domain,
+              DomainName: g[0].DomainName,
+            }));
             traj.Style = {
               backgroundColor: colorMapping.get(traj.Code),
               height: traj.MaxLevel.Level * 10 + 'px',
